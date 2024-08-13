@@ -4,6 +4,7 @@ Tests with Franka Emika Robot (FER).
 These are bash commands fyi :)
 Setup based on instructions from [frankaemika](https://frankaemika.github.io/docs/franka_ros2.html)
 
+Make sure your host kernel has real-time ubuntu installed. [Here](https://github.com/2b-t/docker-realtime/blob/main/doc/PreemptRt.md) are example instructions on how to install that (not sure if they work bc I didn't need to try them).
 
 ## Setup the Container
 ``` bash
