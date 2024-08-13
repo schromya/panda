@@ -21,6 +21,17 @@ xhost +local:
 # Run image connected to current directory (which will be in /workspace directory in the container) and allow host to display gui using X11 Display Forwarding
 sudo docker run -it --env DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v $(pwd):/workspace/ --net host osrf/ros:noetic-desktop-full bash
 
+sudo docker run -it \
+    --env DISPLAY=$DISPLAY \
+    -v /tmp/.X11-unix:/tmp/.X11-unix \
+    -v $(pwd):/workspace/ \
+    --net host \
+    --cap-add SYS_NICE \
+    --ulimit rtprio=99 \
+    --ulimit rttime=-1 \
+    --ulimit memlock=8428281856 \
+    osrf/ros:noetic-desktop-full bash
+
 # Install libfranka
 sudo apt update
 sudo apt install ros-noetic-libfranka ros-noetic-franka-ros
