@@ -6,6 +6,9 @@ Setup based on instructions from [frankaemika](https://frankaemika.github.io/doc
 
 Make sure your host kernel has real-time ubuntu installed. [Here](https://github.com/2b-t/docker-realtime/blob/main/doc/PreemptRt.md) are example instructions on how to install that (not sure if they work bc I didn't need to try them).
 
+Make sure docker is installed as well.
+
+
 ## Setup the Container
 ``` bash
 # Pull ROS noetic image
@@ -36,38 +39,31 @@ sudo docker run -it \
 sudo apt update
 sudo apt install ros-noetic-libfranka ros-noetic-franka-ros
 
-# Configure Kernel for realtime
-sudo apt-get install build-essential bc curl ca-certificates gnupg2 libssl-dev lsb-release libelf-dev bison flex dwarves zstd libncurses-dev
+# Set up realtime configs
+sudo addgroup realtime
+sudo usermod -a -G realtime $(whoami)
 
-curl -SLO https://www.kernel.org/pub/linux/kernel/v6.x/linux-6.9.tar.xz
-curl -SLO https://www.kernel.org/pub/linux/kernel/v6.x/linux-6.9.tar.sign
-curl -SLO https://www.kernel.org/pub/linux/kernel/projects/rt/6.9/patch-6.9-rt5.patch.xz
-curl -SLO https://www.kernel.org/pub/linux/kernel/projects/rt/6.9/patch-6.9-rt5.patch.sign
+echo "@realtime soft rtprio 99" | sudo tee -a /etc/security/limits.conf
+echo "@realtime soft priority 99" | sudo tee -a /etc/security/limits.conf
+echo "@realtime soft memlock 102400" | sudo tee -a /etc/security/limits.conf
+echo "@realtime hard rtprio 99" | sudo tee -a /etc/security/limits.conf
+echo "@realtime hard priority 99" | sudo tee -a /etc/security/limits.conf
+echo "@realtime hard memlock 102400" | sudo tee -a /etc/security/limits.conf
 
-xz -d *.xz
-tar xf linux-*.tar
-cd linux-*/
-patch -p1 < ../patch-*.patch
 
-touch /boot/config-$(uname -r) # ONLY DO IF ON CONTAINER
-cp -v /boot/config-$(uname -r) .config
-make olddefconfig
-make menuconfig
-
-```
-The second command brings up a terminal interface in which you can configure the preemption model. Navigate with the arrow keys to General Setup > Preemption Model and select Fully Preemptible Kernel (Real-Time) (PREEMTIBLE KERNEL???)
-
-After that navigate to Cryptographic API > Certificates for signature checking (at the very bottom of the list) > Provide system-wide ring of trusted keys > Additional X.509 keys for default system keyring
-
-Remove the “debian/canonical-certs.pem” from the prompt and press Ok. Save this configuration to .config and exit the TUI.
-
-```bash
 
 # Set up Workspace
 cd workspace
 source /opt/ros/noetic/setup.sh
 
 ```
+
+
+```bash
+# comms test
+sudo communication_test 192.168.1.2
+
+````
 
 
 ## Useful Commands
@@ -97,3 +93,16 @@ sb_release -a
 
 
 
+
+
+# WITHOUT CONTAINER
+```bash
+
+sudo apt update
+sudo apt install ros-noetic-libfranka ros-noetic-franka-ros
+
+cd ros_noetic
+# Setup workspace
+source /opt/ros/noetic/setup.sh
+
+```
