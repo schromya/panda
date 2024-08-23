@@ -4,6 +4,10 @@ Install ROS noetic https://wiki.ros.org/noetic/Installation/Ubuntu
 
 Build from source using the following commands. Sourced from [here](https://frankaemika.github.io/docs/installation_linux.html)
 ```bash
+sudo apt update
+
+sudo apt install ros-noetic-rosbash
+
 sudo apt remove "*libfranka*"
 sudo apt-get update
 
@@ -22,10 +26,12 @@ sudo apt-get install ros-noetic-gazebo-ros-control
 sudo apt-get install ros-noetic-kdl-parser
 
 
+
+
 git clone --recursive https://github.com/frankaemika/libfranka # only for panda
 cd libfranka
 
-git checkout 0.9.1
+git checkout 0.9.2
 git submodule update
 
 mkdir build
@@ -46,10 +52,11 @@ catkin_init_workspace src
 git clone --recursive https://github.com/frankaemika/franka_ros src/franka_ros # Newest version should be compatible so don't need to checkout specific version
 git checkout 0.8.0
 
-sudo apt install python3-rosdep2
+sudo apt install python3-rosdep
+sudo rosdep init 
+sudo rosdep update
+sudo rosdep install --from-paths src --ignore-src --rosdistro noetic -y --skip-keys libfranka
 
-rosdep install --from-paths src --ignore-src --rosdistro noetic -y --skip-keys libfranka
-rosdeb update
 
 catkin_make -DCMAKE_BUILD_TYPE=Release -DFranka_DIR:PATH=../libranka/build  # Make sure you're in catkin_ws directory
 source devel/setup.sh
@@ -71,12 +78,24 @@ echo "@realtime hard memlock 102400" | sudo tee -a /etc/security/limits.conf
 
 ```
 
+## Running Libfranka w/out ROS
+```bash
+cd libfranka/build/examples
+./echo_robot_state 192.168.1.2  # YAYA THIS WORKED
+
+# OR
+./communication_test 192.168.1.2
+## BUT GOT THE FOLLOWING :(
+libfranka: Running kernel does not have realtime capabilities.
+```
+
+
 ## Running
 Make sure joints are unlocked and FCI Control is enabled in desktop ([192.168.1.2](https://192.168.1.2/desk/))
 ```bash
 # comms test
 sudo communication_test 192.168.1.2
-
+rosrun libfranka echo_robot_state 192.168.1.2
 ```
 
 
@@ -106,3 +125,8 @@ cd catkin_ws # Get to catkin_ws directory (may need to use different command)
 catkin_make -DCMAKE_BUILD_TYPE=Release -DFranka_DIR:PATH=../libranka/build  
 source devel/setup.sh
 ```
+
+
+
+
+find_package(Franka ${libfranka_VERSION} EXACT REQUIRED)
