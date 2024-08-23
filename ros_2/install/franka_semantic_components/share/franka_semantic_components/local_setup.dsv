@@ -1,3 +1,0 @@
-source;share/franka_semantic_components/environment/ament_prefix_path.sh
-source;share/franka_semantic_components/environment/library_path.sh
-source;share/franka_semantic_components/environment/path.sh

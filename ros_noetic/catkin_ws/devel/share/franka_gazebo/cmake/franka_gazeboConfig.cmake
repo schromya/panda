@@ -99,7 +99,7 @@ if(NOT "/home/hcilab/Desktop/github/panda/ros_noetic/catkin_ws/src/franka_ros/fr
   elseif(NOT "http://wiki.ros.org/franka_gazebo " STREQUAL " ")
     set(_report "Check the website 'http://wiki.ros.org/franka_gazebo' for information and consider reporting the problem.")
   else()
-    set(_report "Report the problem to the maintainer 'Franka Robotics GmbH <support@franka.de>' and request to fix the problem.")
+    set(_report "Report the problem to the maintainer 'Franka Emika GmbH <support@franka.de>' and request to fix the problem.")
   endif()
   foreach(idir ${_include_dirs})
     if(IS_ABSOLUTE ${idir} AND IS_DIRECTORY ${idir})

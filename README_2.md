@@ -1,10 +1,26 @@
+
+## Setup
 Install ROS noetic https://wiki.ros.org/noetic/Installation/Ubuntu
 
-Build from source: https://frankaemika.github.io/docs/installation_linux.html
+Build from source using the following commands. Sourced from [here](https://frankaemika.github.io/docs/installation_linux.html)
 ```bash
 sudo apt remove "*libfranka*"
+sudo apt-get update
+
 
 sudo apt install build-essential cmake git libpoco-dev libeigen3-dev
+
+sudo apt-get install ros-noetic-actionlib
+sudo apt-get install ros-noetic-combined-robot-hw
+sudo apt-get install ros-noetic-joint-limits-interface
+sudo apt-get install ros-noetic-controller-manager
+sudo apt-get install ros-noetic-realtime-tools
+sudo apt-get install ros-noetic-tf
+sudo apt-get install ros-noetic-dynamic-reconfigure
+sudo apt-get install ros-noetic-tf-conversions
+sudo apt-get install ros-noetic-gazebo-ros-control
+sudo apt-get install ros-noetic-kdl-parser
+
 
 git clone --recursive https://github.com/frankaemika/libfranka # only for panda
 cd libfranka
@@ -28,13 +44,14 @@ source /opt/ros/noetic/setup.sh
 catkin_init_workspace src
 
 git clone --recursive https://github.com/frankaemika/franka_ros src/franka_ros # Newest version should be compatible so don't need to checkout specific version
+git checkout 0.8.0
 
 sudo apt install python3-rosdep2
 
 rosdep install --from-paths src --ignore-src --rosdistro noetic -y --skip-keys libfranka
 rosdeb update
 
-catkin_make -DCMAKE_BUILD_TYPE=Release -DFranka_DIR:PATH=../libranka/build 
+catkin_make -DCMAKE_BUILD_TYPE=Release -DFranka_DIR:PATH=../libranka/build  # Make sure you're in catkin_ws directory
 source devel/setup.sh
 
 ```
@@ -54,8 +71,38 @@ echo "@realtime hard memlock 102400" | sudo tee -a /etc/security/limits.conf
 
 ```
 
+## Running
+Make sure joints are unlocked and FCI Control is enabled in desktop ([192.168.1.2](https://192.168.1.2/desk/))
 ```bash
 # comms test
 sudo communication_test 192.168.1.2
 
-````
+```
+
+
+## Notes
+Every time you open a new terminal, you'll need to run:
+```bash
+source /opt/ros/noetic/setup.sh
+source devel/setup.sh  # NOT SURE ABOUT THIS ONE
+```
+
+If you make changes to libfranka, you'll need to rerun:
+
+``` bash
+cd libfranka/build  # Get to libfranka/build directory (may need to use different command)
+cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=OFF ..
+cmake --build .
+
+cd ../../catkin_ws
+catkin_make -DCMAKE_BUILD_TYPE=Release -DFranka_DIR:PATH=../libranka/build  # Make sure you're in catkin_ws directory
+source devel/setup.sh
+```
+
+
+If you make changes to catkin_ws, you'll need to rerun:
+``` bash
+cd catkin_ws # Get to catkin_ws directory (may need to use different command)
+catkin_make -DCMAKE_BUILD_TYPE=Release -DFranka_DIR:PATH=../libranka/build  
+source devel/setup.sh
+```

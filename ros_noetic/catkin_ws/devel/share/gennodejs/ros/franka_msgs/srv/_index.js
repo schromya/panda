@@ -8,7 +8,6 @@ let SetForceTorqueCollisionBehavior = require('./SetForceTorqueCollisionBehavior
 let SetLoad = require('./SetLoad.js')
 let SetEEFrame = require('./SetEEFrame.js')
 let SetKFrame = require('./SetKFrame.js')
-let SetJointConfiguration = require('./SetJointConfiguration.js')
 
 module.exports = {
   SetFullCollisionBehavior: SetFullCollisionBehavior,
@@ -18,5 +17,4 @@ module.exports = {
   SetLoad: SetLoad,
   SetEEFrame: SetEEFrame,
   SetKFrame: SetKFrame,
-  SetJointConfiguration: SetJointConfiguration,
 };

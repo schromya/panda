@@ -99,7 +99,7 @@ if(NOT " " STREQUAL " ")
   elseif(NOT "http://wiki.ros.org/franka_description " STREQUAL " ")
     set(_report "Check the website 'http://wiki.ros.org/franka_description' for information and consider reporting the problem.")
   else()
-    set(_report "Report the problem to the maintainer 'Franka Robotics GmbH <support@franka.de>' and request to fix the problem.")
+    set(_report "Report the problem to the maintainer 'Franka Emika GmbH <support@franka.de>' and request to fix the problem.")
   endif()
   foreach(idir ${_include_dirs})
     if(IS_ABSOLUTE ${idir} AND IS_DIRECTORY ${idir})
@@ -154,7 +154,7 @@ foreach(library ${libraries})
     set(lib_path "")
     set(lib "${library}-NOTFOUND")
     # since the path where the library is found is returned we have to iterate over the paths manually
-    foreach(path /home/hcilab/Desktop/github/panda/ros_noetic/catkin_ws/devel/lib;/opt/ros/noetic/lib)
+    foreach(path /home/hcilab/Desktop/github/panda/ros_noetic/catkin_ws/devel/lib;/home/hcilab/Desktop/github/panda/ros_noetic/catkin_ws/devel/lib;/opt/ros/noetic/lib)
       find_library(lib ${library}
         PATHS ${path}
         NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)

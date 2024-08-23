@@ -99,7 +99,7 @@ if(NOT "/home/hcilab/Desktop/github/panda/ros_noetic/catkin_ws/devel/include " S
   elseif(NOT "http://wiki.ros.org/franka_msgs " STREQUAL " ")
     set(_report "Check the website 'http://wiki.ros.org/franka_msgs' for information and consider reporting the problem.")
   else()
-    set(_report "Report the problem to the maintainer 'Franka Robotics GmbH <support@franka.de>' and request to fix the problem.")
+    set(_report "Report the problem to the maintainer 'Franka Emika GmbH <support@franka.de>' and request to fix the problem.")
   endif()
   foreach(idir ${_include_dirs})
     if(IS_ABSOLUTE ${idir} AND IS_DIRECTORY ${idir})
@@ -154,7 +154,7 @@ foreach(library ${libraries})
     set(lib_path "")
     set(lib "${library}-NOTFOUND")
     # since the path where the library is found is returned we have to iterate over the paths manually
-    foreach(path /home/hcilab/Desktop/github/panda/ros_noetic/catkin_ws/devel/lib;/opt/ros/noetic/lib)
+    foreach(path /home/hcilab/Desktop/github/panda/ros_noetic/catkin_ws/devel/lib;/home/hcilab/Desktop/github/panda/ros_noetic/catkin_ws/devel/lib;/opt/ros/noetic/lib)
       find_library(lib ${library}
         PATHS ${path}
         NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)
@@ -185,7 +185,7 @@ foreach(t ${franka_msgs_EXPORTED_TARGETS})
   endif()
 endforeach()
 
-set(depends "message_runtime;std_msgs;sensor_msgs;actionlib_msgs")
+set(depends "message_runtime;std_msgs;actionlib_msgs")
 foreach(depend ${depends})
   string(REPLACE " " ";" depend_list ${depend})
   # the package name of the dependency must be kept in a unique variable so that it is not overwritten in recursive calls

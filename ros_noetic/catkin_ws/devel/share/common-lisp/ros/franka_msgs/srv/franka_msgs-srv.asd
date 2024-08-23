@@ -12,8 +12,6 @@
     (:file "_package_SetForceTorqueCollisionBehavior" :depends-on ("_package"))
     (:file "SetFullCollisionBehavior" :depends-on ("_package_SetFullCollisionBehavior"))
     (:file "_package_SetFullCollisionBehavior" :depends-on ("_package"))
-    (:file "SetJointConfiguration" :depends-on ("_package_SetJointConfiguration"))
-    (:file "_package_SetJointConfiguration" :depends-on ("_package"))
     (:file "SetJointImpedance" :depends-on ("_package_SetJointImpedance"))
     (:file "_package_SetJointImpedance" :depends-on ("_package"))
     (:file "SetKFrame" :depends-on ("_package_SetKFrame"))
