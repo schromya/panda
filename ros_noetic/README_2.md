@@ -137,7 +137,8 @@ source devel/setup.sh
 ```
 
 
-
+Error messages:
+https://gist.github.com/FrankieWOO/3d3b04ef1de1817142c8131708cf6dee
 
 find_package(Franka ${libfranka_VERSION} EXACT REQUIRED)
 
