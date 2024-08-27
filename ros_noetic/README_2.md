@@ -10,6 +10,11 @@ curl -SLO https://www.kernel.org/pub/linux/kernel/v5.x/linux-5.17.1.tar.sign
 curl -SLO https://www.kernel.org/pub/linux/kernel/projects/rt/5.17/patch-5.17.1-rt17.patch.xz
 curl -SLO https://www.kernel.org/pub/linux/kernel/projects/rt/5.17/patch-5.17.1-rt17.patch.sign
 ```
+Before you compile the kernel, you will need to run:
+```bash
+sudo apt install zstd
+```
+
 If you run into errors you can't see when compiling the kernel, run the verbose version: `make -j$(nproc) V=1 deb-pkg`
 
 Build from source using the following commands. Sourced from [here](https://frankaemika.github.io/docs/installation_linux.html)
