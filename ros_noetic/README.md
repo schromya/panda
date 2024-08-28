@@ -89,34 +89,21 @@ source devel/setup.sh
 ```
 
 
-```bash
-# Set up realtime configs
-sudo addgroup realtime
-sudo usermod -a -G realtime $(whoami)
-
-echo "@realtime soft rtprio 99" | sudo tee -a /etc/security/limits.conf
-echo "@realtime soft priority 99" | sudo tee -a /etc/security/limits.conf
-echo "@realtime soft memlock 102400" | sudo tee -a /etc/security/limits.conf
-echo "@realtime hard rtprio 99" | sudo tee -a /etc/security/limits.conf
-echo "@realtime hard priority 99" | sudo tee -a /etc/security/limits.conf
-echo "@realtime hard memlock 102400" | sudo tee -a /etc/security/limits.conf
-
-```
-
 ## Running Libfranka w/out ROS
+Make sure joints are unlocked and FCI Control is enabled in desktop ([192.168.1.2](https://192.168.1.2/desk/)).
 ```bash
 cd libfranka/build/examples
 ./echo_robot_state 192.168.1.2  # YAYA THIS WORKED
 
 # OR
 ./communication_test 192.168.1.2
-## BUT GOT THE FOLLOWING :(
-libfranka: Running kernel does not have realtime capabilities.
+## BUT GOT THE FOLLOWING :( 
+# libfranka: Running kernel does not have realtime capabilities.
 ```
 
 
 ## Running w/ ROS
-Make sure joints are unlocked and FCI Control is enabled in desktop ([192.168.1.2](https://192.168.1.2/desk/))
+Make sure joints are unlocked and FCI Control is enabled in desktop ([192.168.1.2](https://192.168.1.2/desk/)).
 ```bash
 # comms test
 sudo communication_test 192.168.1.2
