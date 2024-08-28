@@ -88,9 +88,11 @@ source devel/setup.sh
 
 ```
 
+## Running
+Before you can run anything with code, make sure joints are unlocked and FCI Control is enabled in desktop ([192.168.1.2](https://192.168.1.2/desk/)). Directions for doing that are [here](https://youtu.be/91wFDNHVXI4?si=4-ZArdrxOMAiCc5H&t=484).
 
-## Running Libfranka w/out ROS
-Make sure joints are unlocked and FCI Control is enabled in desktop ([192.168.1.2](https://192.168.1.2/desk/)).
+### Running Libfranka w/out ROS
+
 ```bash
 cd libfranka/build/examples
 ./echo_robot_state 192.168.1.2  # YAYA THIS WORKED
@@ -102,8 +104,8 @@ cd libfranka/build/examples
 ```
 
 
-## Running w/ ROS
-Make sure joints are unlocked and FCI Control is enabled in desktop ([192.168.1.2](https://192.168.1.2/desk/)).
+### Running w/ ROS
+
 ```bash
 # comms test
 sudo communication_test 192.168.1.2
