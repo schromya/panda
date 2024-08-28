@@ -1,6 +1,15 @@
 
 ## Setup
-These are instructions for software setup for interfacing with the Franka Emika Robot (FER) Panda, version 4.2.2.
+These are instructions for software setup for interfacing with the Franka Emika Robot (FER) Panda. Here are the current versions and what we are going to install: 
+
+* Robot system version: 4.2.2 (FER pandas)
+* Robot / Gripper Server version: 5/3
+
+* ROS 1 version: Noetic
+* Ubuntu version: 20.04.6
+* libfranka version: 0.9.2
+* franka_ros version: 0.9.1
+
 
 ### Real time Kernel
 Make sure you are running Ubuntu 20.04 (Focal Fossil).
