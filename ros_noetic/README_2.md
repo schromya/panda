@@ -1,23 +1,27 @@
 
 ## Setup
-Make sure you are running Ubuntu 20.04 (Focal Fossil)
-Install ROS noetic using [these instructions](https://wiki.ros.org/noetic/Installation/Ubuntu)
+These are instructions for software setup for interfacing with the Franka Emika Robot (FER) Panda, version 4.2.2.
 
-Set up realtime kernel using Ubuntu Pro by  following [these instructions](https://frankaemika.github.io/docs/installation_linux.html) located in the second section. For the curl portion, I am running Kernel 5.17.0 so I ran:
+### Real time Kernel
+Make sure you are running Ubuntu 20.04 (Focal Fossil).
+Install ROS noetic using [these instructions](https://wiki.ros.org/noetic/Installation/Ubuntu).
+
+Set up realtime kernel by following [these instructions](https://frankaemika.github.io/docs/installation_linux.html#setting-up-the-real-time-kernel) (I would run them all in your Downloads directory).
+* For the curl step, I am running Kernel 5.17.0 so I ran:
 ```bash
 curl -SLO https://www.kernel.org/pub/linux/kernel/v5.x/linux-5.17.1.tar.xz
 curl -SLO https://www.kernel.org/pub/linux/kernel/v5.x/linux-5.17.1.tar.sign
 curl -SLO https://www.kernel.org/pub/linux/kernel/projects/rt/5.17/patch-5.17.1-rt17.patch.xz
 curl -SLO https://www.kernel.org/pub/linux/kernel/projects/rt/5.17/patch-5.17.1-rt17.patch.sign
 ```
-Before you compile the kernel, you will need to run:
-```bash
-sudo apt install zstd
-```
 
-If you run into errors you can't see when compiling the kernel, run the verbose version: `make -j$(nproc) V=1 deb-pkg`
+* In the `make menuconfig` step, if you can not see the option to enable  "Fully Preemptible Kernel (Real-Time)", you need to enable General Setup -> Embedded System, save, and then try again ([source](https://unix.stackexchange.com/questions/582075/trouble-selecting-fully-preemptible-kernel-real-time-when-configuring-compil))
 
-Build from source using the following commands. Sourced from [here](https://frankaemika.github.io/docs/installation_linux.html)
+* If you run into errors you can't see when compiling the kernel, run the verbose version on a single core: `make V=1 deb-pkg` (warning: this will take forever) and reference (this source)[https://gist.github.com/FrankieWOO/3d3b04ef1de1817142c8131708cf6dee] for error messages.
+
+### Building libfranka and franka_ros
+Build from source using the following commands bc you will need versions that are compatible with the Robots 4.2.2 version. Commands adapted from [here](https://frankaemika.github.io/docs/installation_linux.html).
+
 ```bash
 sudo apt update
 
@@ -28,7 +32,6 @@ sudo apt-get update
 
 
 sudo apt install build-essential cmake git libpoco-dev libeigen3-dev
-
 sudo apt-get install ros-noetic-actionlib
 sudo apt-get install ros-noetic-combined-robot-hw
 sudo apt-get install ros-noetic-joint-limits-interface
@@ -39,8 +42,6 @@ sudo apt-get install ros-noetic-dynamic-reconfigure
 sudo apt-get install ros-noetic-tf-conversions
 sudo apt-get install ros-noetic-gazebo-ros-control
 sudo apt-get install ros-noetic-kdl-parser
-
-
 
 
 git clone --recursive https://github.com/frankaemika/libfranka # only for panda
@@ -105,7 +106,7 @@ libfranka: Running kernel does not have realtime capabilities.
 ```
 
 
-## Running
+## Running w/ ROS
 Make sure joints are unlocked and FCI Control is enabled in desktop ([192.168.1.2](https://192.168.1.2/desk/))
 ```bash
 # comms test
