@@ -102,26 +102,11 @@ Before you can run anything with code, make sure joints are unlocked and FCI Con
 
 ```bash
 cd libfranka/build/examples
-./echo_robot_state 192.168.1.2  # YAYA THIS WORKED
+./echo_robot_state 192.168.1.2 # Tests comms (does not require real time kernel)
 
-# OR
-./communication_test 192.168.1.2
-## BUT GOT THE FOLLOWING :( 
-# libfranka: Running kernel does not have realtime capabilities.
+./communication_test 192.168.1.2 # Tests realtime kernel and robot by moving bot
 ```
 
-
-### Running w/ ROS
-
-```bash
-# comms test
-sudo communication_test 192.168.1.2
-rosrun libfranka echo_robot_state 192.168.1.2
-```
-
-
-## Notes
-Every time you open a new terminal, you'll need to run:
 ```bash
 source /opt/ros/noetic/setup.sh
 source devel/setup.sh  # NOT SURE ABOUT THIS ONE
