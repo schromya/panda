@@ -1,3 +1,5 @@
+# FER Panda FCI Instruction 
+For running the FER Panda bot with code, the minimum you need to install is libfranka. libfranka requires a realtime-kernel patch on your host machine (even if you are running on a container bc the container shares a kernel with the host). If you want to use ROS, you'll also need to also install franka_ros.
 
 ## Setup
 These are instructions for software setup for interfacing with the Franka Emika Robot (FER) Panda. The instructions assume you have set up the robot and can interface with it using the Franka Desktop. If that is not the case, reference your user manual or follow the start of [this viedo](https://youtu.be/91wFDNHVXI4?si=_RWVrXJ0wC-qe6NI).
@@ -19,7 +21,7 @@ If you have a different versions, reference the [compatible versions](https://fr
 
 ### Base environment.
 Make sure you are running Ubuntu 20.04 (Focal Fossil).
-Install ROS noetic using [these instructions](https://wiki.ros.org/noetic/Installation/Ubuntu).
+
 
 ### Real time Kernel
 Set up realtime kernel by following [these instructions](https://frankaemika.github.io/docs/installation_linux.html#setting-up-the-real-time-kernel) (I would run them all in your Downloads directory).
@@ -35,17 +37,38 @@ curl -SLO https://www.kernel.org/pub/linux/kernel/projects/rt/5.17/patch-5.17.1-
 
 * If you run into errors you can't see when compiling the kernel, run the verbose version on a single core: `make V=1 deb-pkg` (warning: this will take forever) and reference (this source)[https://gist.github.com/FrankieWOO/3d3b04ef1de1817142c8131708cf6dee] for error messages.
 
-### Building libfranka and franka_ros
+###  libfranka 
 Build from source using the following commands bc you will need versions that are compatible with the Robots 4.2.2 version. Commands adapted from [here](https://frankaemika.github.io/docs/installation_linux.html).
 
 ```bash
 sudo apt update
 
-sudo apt install ros-noetic-rosbash
-
 sudo apt remove "*libfranka*"
 sudo apt-get update
 
+
+sudo apt install build-essential cmake git libpoco-dev libeigen3-dev
+
+git clone --recursive https://github.com/frankaemika/libfranka 
+cd libfranka
+
+git checkout 0.9.2
+git submodule update
+
+mkdir build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=OFF ..
+cmake --build .
+```
+
+
+###  franka_ros (only needed if you want to use ROS)
+Install ROS noetic using [these instructions](https://wiki.ros.org/noetic/Installation/Ubuntu).
+
+```bash
+sudo apt update
+
+sudo apt install ros-noetic-rosbash
 
 sudo apt install build-essential cmake git libpoco-dev libeigen3-dev
 sudo apt-get install ros-noetic-actionlib
@@ -58,21 +81,6 @@ sudo apt-get install ros-noetic-dynamic-reconfigure
 sudo apt-get install ros-noetic-tf-conversions
 sudo apt-get install ros-noetic-gazebo-ros-control
 sudo apt-get install ros-noetic-kdl-parser
-
-
-git clone --recursive https://github.com/frankaemika/libfranka # only for panda
-cd libfranka
-
-git checkout 0.9.2
-git submodule update
-
-mkdir build
-cd build
-cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=OFF ..
-cmake --build .
-
-# cpack -G DEB
-# sudo dpkg -i libfranka*.deb
 
 
 cd ../..  # go to ros_noetic directory
@@ -98,7 +106,7 @@ source devel/setup.sh
 ## Running
 Before you can run anything with code, make sure joints are unlocked and FCI Control is enabled in the Franka desktop ( our robot is [192.168.1.2](https://192.168.1.2/desk/)). Directions for doing that are [here](https://youtu.be/91wFDNHVXI4?si=4-ZArdrxOMAiCc5H&t=484).
 
-### Running Libfranka w/out ROS
+### Running libfranka w/out ROS
 
 ```bash
 cd libfranka/build/examples
@@ -107,27 +115,41 @@ cd libfranka/build/examples
 ./communication_test 192.168.1.2 # Tests realtime kernel and robot by moving bot
 ```
 
+### Running w/ ROS
+
 ```bash
-source /opt/ros/noetic/setup.sh
-source devel/setup.sh  # NOT SURE ABOUT THIS ONE
+# comms test
+sudo communication_test 192.168.1.2  # Tests comms (does not require real time kernel)
+rosrun libfranka echo_robot_state 192.168.1.2 # Tests realtime kernel and robot by moving bot
 ```
 
+## Notes
+### libfranka 
 If you make changes to libfranka, you'll need to rerun:
 
 ``` bash
 cd libfranka/build  # Get to libfranka/build directory (may need to use different command)
 cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=OFF ..
 cmake --build .
-
-cd ../../catkin_ws
-catkin_make -DCMAKE_BUILD_TYPE=Release -DFranka_DIR:PATH=../libranka/build  # Make sure you're in catkin_ws directory
-source devel/setup.sh
 ```
 
+### frank_ros
+Every time you open a new terminal, you'll need to run:
+```bash
+source /opt/ros/noetic/setup.sh
+source devel/setup.sh  # NOT SURE ABOUT THIS ONE
+```
 
-If you make changes to catkin_ws, you'll need to rerun:
+If you make changes, you'll need to rerun:
+
 ``` bash
-cd catkin_ws # Get to catkin_ws directory (may need to use different command)
-catkin_make -DCMAKE_BUILD_TYPE=Release -DFranka_DIR:PATH=../libranka/build  
+# For changes made to libfranka
+cd libfranka/build  # Get to libfranka/build directory (may need to use different command)
+cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=OFF ..
+cmake --build .
+
+# For making changes made to catkin_ws
+cd ../../catkin_ws
+catkin_make -DCMAKE_BUILD_TYPE=Release -DFranka_DIR:PATH=../libranka/build  # Make sure you're in catkin_ws directory
 source devel/setup.sh
 ```
