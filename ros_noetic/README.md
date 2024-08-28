@@ -1,20 +1,27 @@
 
 ## Setup
-These are instructions for software setup for interfacing with the Franka Emika Robot (FER) Panda. Here are the current versions and what we are going to install: 
+These are instructions for software setup for interfacing with the Franka Emika Robot (FER) Panda. The instructions assume you have set up the robot and can interface with it using the Franka Desktop. If that is not the case, reference your user manual or follow the start of [this viedo](https://youtu.be/91wFDNHVXI4?si=_RWVrXJ0wC-qe6NI).
 
+Here is what we start with:
 * Robot system version: 4.2.2 (FER pandas)
 * Robot / Gripper Server version: 5/3
-
-* ROS 1 version: Noetic
 * Ubuntu version: 20.04.6
+
+
+Here is what we are going to install:
+* ROS 1 version: Noetic
 * libfranka version: 0.9.2
 * franka_ros version: 0.9.1
 
+If you have a different versions, reference the [compatible versions](https://frankaemika.github.io/docs/compatibility.html). WARNING: version compatibility is SUPER important.
 
-### Real time Kernel
+
+
+### Base environment.
 Make sure you are running Ubuntu 20.04 (Focal Fossil).
 Install ROS noetic using [these instructions](https://wiki.ros.org/noetic/Installation/Ubuntu).
 
+### Real time Kernel
 Set up realtime kernel by following [these instructions](https://frankaemika.github.io/docs/installation_linux.html#setting-up-the-real-time-kernel) (I would run them all in your Downloads directory).
 * For the curl step, I am running Kernel 5.17.0 so I ran:
 ```bash
@@ -89,7 +96,7 @@ source devel/setup.sh
 ```
 
 ## Running
-Before you can run anything with code, make sure joints are unlocked and FCI Control is enabled in desktop ([192.168.1.2](https://192.168.1.2/desk/)). Directions for doing that are [here](https://youtu.be/91wFDNHVXI4?si=4-ZArdrxOMAiCc5H&t=484).
+Before you can run anything with code, make sure joints are unlocked and FCI Control is enabled in the Franka desktop ( our robot is [192.168.1.2](https://192.168.1.2/desk/)). Directions for doing that are [here](https://youtu.be/91wFDNHVXI4?si=4-ZArdrxOMAiCc5H&t=484).
 
 ### Running Libfranka w/out ROS
 
