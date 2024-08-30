@@ -104,7 +104,7 @@ source devel/setup.sh
 ```
 
 ## Running
-Before you can run anything with code, make sure joints are unlocked and FCI Control is enabled in the Franka desktop ( our robot is [192.168.1.2](https://192.168.1.2/desk/)). Directions for doing that are [here](https://youtu.be/91wFDNHVXI4?si=4-ZArdrxOMAiCc5H&t=484).
+Before you can run anything with code, make sure joints are unlocked and FCI Control is enabled in the Franka desktop ( our robot is [192.168.1.2](https://192.168.1.2/desk/)). Directions for doing that are [here](https://youtu.be/91wFDNHVXI4?si=4-ZArdrxOMAiCc5H&t=484). WARNING: I could not get Firefox to access the desk because of security reasons. However I could access through chrome once I clicked "Advanced" > "Proceed to 192.168.1.2 (unsafe)".
 
 ### Running libfranka w/out ROS
 
@@ -123,7 +123,7 @@ sudo communication_test 192.168.1.2  # Tests comms (does not require real time k
 rosrun libfranka echo_robot_state 192.168.1.2 # Tests realtime kernel and robot by moving bot
 ```
 
-## Notes
+## Running Notes
 ### libfranka 
 If you make changes to libfranka, you'll need to rerun:
 
@@ -153,3 +153,9 @@ cd ../../catkin_ws
 catkin_make -DCMAKE_BUILD_TYPE=Release -DFranka_DIR:PATH=../libranka/build  # Make sure you're in catkin_ws directory
 source devel/setup.sh
 ```
+
+
+## Panda Notes
+Panda limits for motion are located [here](https://frankaemika.github.io/docs/control_parameters.html#limits-for-panda).
+If you go beyond them, you will get the error `libfranka: Move command aborted: motion aborted by reflex! ["cartesian_reflex"]`.
+After that any other command will throw the error `libfranka: Set Joint Impedance command rejected: command not possible in the current mode ("Reflex")!` **UNTIL  the joints are locked and unlocked**.

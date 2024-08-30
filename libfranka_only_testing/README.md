@@ -21,15 +21,17 @@ main.cpp uses the IP 192.168.1.2 for the robot. You need to change it if your ro
 
 Before you can run anything with code, make sure joints are unlocked and FCI Control is enabled in the Franka desktop (more details in setup.md).
 
-
 Run the following to compile and run main:
 ```bash
 cd libfranka_only_testing # Make sure you are in this directory (may need another command)
 
-g++ -o main main.cpp -I./libfranka/include -L./libfranka/build -Wl,-rpath,./libfranka/build -lfranka -pthread
-./main
+g++ -o main main.cpp -I./libfranka/include -I./libfranka/examples -I/usr/include/eigen3 -L./libfranka/build -L./libfranka/build/examples -Wl,-rpath,./libfranka/build:./libfranka/build/examples -lfranka -lpthread -lexamples_common
+
+
+./main # WARNING: This command will move the robot! Please make sure to have the user stop button at hand!
 ```
 
 
 ## Troubleshooting
 Check setup.md for errors and solutions I ran into while setting up.
+

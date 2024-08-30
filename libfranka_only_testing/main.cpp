@@ -2,17 +2,23 @@
 #include <franka/robot.h>
 #include <franka/exception.h>
 
+#include <examples_common.h>
+
+
+
 int main() {
     
     try {
         franka::Robot robot("192.168.1.2");  // Adjust the IP to match your robot's network settings
 
-        // Get first 10 lines of robot state
-        size_t count = 0;
-        robot.read([&count](const franka::RobotState& robot_state) {
-            std::cout << robot_state << std::endl;
-            return count++ < 10;
-        });
+        setDefaultBehavior(robot);
+
+        // Move robot to almost vertical
+        std::array<double, 7> q_goal = {{0, -M_PI_4, 0, -1.3, 0, 3.5, M_PI_4}}; // Rads
+        MotionGenerator motion_generator(0.1, q_goal);
+        robot.control(motion_generator);
+
+        std::cout << "Finished moving to initial joint configuration." << std::endl;
 
     } catch (const franka::Exception& e) {
         std::cout << e.what() << std::endl;
