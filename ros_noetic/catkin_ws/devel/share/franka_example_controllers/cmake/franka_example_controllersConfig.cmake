@@ -91,9 +91,9 @@ endif()
 # flag project as catkin-based to distinguish if a find_package()-ed project is a catkin project
 set(franka_example_controllers_FOUND_CATKIN_PROJECT TRUE)
 
-if(NOT "/home/hcilab/Desktop/github/panda/ros_noetic/catkin_ws/devel/include;/home/hcilab/Desktop/github/panda/ros_noetic/catkin_ws/src/franka_ros/franka_example_controllers/include;/usr/local/include " STREQUAL " ")
+if(NOT "/home/hcilab/Desktop/github/panda/ros_noetic/catkin_ws/devel/include;/home/hcilab/Desktop/github/panda/ros_noetic/catkin_ws/src/franka_ros/franka_example_controllers/include;/usr/include " STREQUAL " ")
   set(franka_example_controllers_INCLUDE_DIRS "")
-  set(_include_dirs "/home/hcilab/Desktop/github/panda/ros_noetic/catkin_ws/devel/include;/home/hcilab/Desktop/github/panda/ros_noetic/catkin_ws/src/franka_ros/franka_example_controllers/include;/usr/local/include")
+  set(_include_dirs "/home/hcilab/Desktop/github/panda/ros_noetic/catkin_ws/devel/include;/home/hcilab/Desktop/github/panda/ros_noetic/catkin_ws/src/franka_ros/franka_example_controllers/include;/usr/include")
   if(NOT "https://github.com/frankaemika/franka_ros/issues " STREQUAL " ")
     set(_report "Check the issue tracker 'https://github.com/frankaemika/franka_ros/issues' and consider creating a ticket if the problem has not been reported yet.")
   elseif(NOT "http://wiki.ros.org/franka_example_controllers " STREQUAL " ")
@@ -116,7 +116,7 @@ if(NOT "/home/hcilab/Desktop/github/panda/ros_noetic/catkin_ws/devel/include;/ho
   endforeach()
 endif()
 
-set(libraries "franka_example_controllers;/usr/local/lib/libfranka.so.0.8.0")
+set(libraries "franka_example_controllers;/usr/lib/libfranka.so.0.9.2")
 foreach(library ${libraries})
   # keep build configuration keywords, target names and absolute libraries as-is
   if("${library}" MATCHES "^(debug|optimized|general)$")

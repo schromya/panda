@@ -91,9 +91,9 @@ endif()
 # flag project as catkin-based to distinguish if a find_package()-ed project is a catkin project
 set(franka_gazebo_FOUND_CATKIN_PROJECT TRUE)
 
-if(NOT "/home/hcilab/Desktop/github/panda/ros_noetic/catkin_ws/src/franka_ros/franka_gazebo/include;/usr/local/include;/usr/share/orocos_kdl/cmake/../../../include;/usr/include/eigen3 " STREQUAL " ")
+if(NOT "/home/hcilab/Desktop/github/panda/ros_noetic/catkin_ws/src/franka_ros/franka_gazebo/include;/usr/include;/usr/share/orocos_kdl/cmake/../../../include;/usr/include/eigen3 " STREQUAL " ")
   set(franka_gazebo_INCLUDE_DIRS "")
-  set(_include_dirs "/home/hcilab/Desktop/github/panda/ros_noetic/catkin_ws/src/franka_ros/franka_gazebo/include;/usr/local/include;/usr/share/orocos_kdl/cmake/../../../include;/usr/include/eigen3")
+  set(_include_dirs "/home/hcilab/Desktop/github/panda/ros_noetic/catkin_ws/src/franka_ros/franka_gazebo/include;/usr/include;/usr/share/orocos_kdl/cmake/../../../include;/usr/include/eigen3")
   if(NOT "https://github.com/frankaemika/franka_ros/issues " STREQUAL " ")
     set(_report "Check the issue tracker 'https://github.com/frankaemika/franka_ros/issues' and consider creating a ticket if the problem has not been reported yet.")
   elseif(NOT "http://wiki.ros.org/franka_gazebo " STREQUAL " ")
@@ -116,7 +116,7 @@ if(NOT "/home/hcilab/Desktop/github/panda/ros_noetic/catkin_ws/src/franka_ros/fr
   endforeach()
 endif()
 
-set(libraries "franka_hw_sim;franka_gripper_sim;/usr/local/lib/libfranka.so.0.8.0;orocos-kdl")
+set(libraries "franka_hw_sim;franka_gripper_sim;/usr/lib/libfranka.so.0.9.2;orocos-kdl")
 foreach(library ${libraries})
   # keep build configuration keywords, target names and absolute libraries as-is
   if("${library}" MATCHES "^(debug|optimized|general)$")

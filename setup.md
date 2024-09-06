@@ -44,7 +44,6 @@ Build from source using the following commands bc you will need versions that ar
 sudo apt update
 
 sudo apt remove "*libfranka*"
-sudo apt-get update
 
 
 sudo apt install build-essential cmake git libpoco-dev libeigen3-dev
@@ -81,6 +80,8 @@ sudo apt-get install ros-noetic-dynamic-reconfigure
 sudo apt-get install ros-noetic-tf-conversions
 sudo apt-get install ros-noetic-gazebo-ros-control
 sudo apt-get install ros-noetic-kdl-parser
+sudo apt-get install ros-noetic-eigen-conversions
+sudo apt install ros-noetic-boost-sml
 
 
 cd ../..  # go to ros_noetic directory
@@ -89,8 +90,8 @@ cd catkin_ws
 source /opt/ros/noetic/setup.sh
 catkin_init_workspace src
 
-git clone --recursive https://github.com/frankaemika/franka_ros src/franka_ros # Newest version should be compatible so don't need to checkout specific version
-git checkout 0.8.0
+git clone --recursive https://github.com/frankaemika/franka_ros src/franka_ros
+git checkout 0.9.1
 
 sudo apt install python3-rosdep
 sudo rosdep init 
@@ -119,8 +120,8 @@ cd libfranka/build/examples
 
 ```bash
 # comms test
-sudo communication_test 192.168.1.2  # Tests comms (does not require real time kernel)
-rosrun libfranka echo_robot_state 192.168.1.2 # Tests realtime kernel and robot by moving bot
+rosrun libfranka echo_robot_state 192.168.1.2 # Tests comms (does not require real time kernel) 
+sudo communication_test 192.168.1.2  # Tests realtime kernel and robot by moving bot
 ```
 
 ## Running Notes
@@ -137,7 +138,9 @@ cmake --build .
 Every time you open a new terminal, you'll need to run:
 ```bash
 source /opt/ros/noetic/setup.sh
-source devel/setup.sh  # NOT SURE ABOUT THIS ONE
+
+cd ros_noetics/catkin_ws  # May need to use other command to get to catkin_ws
+source devel/setup.sh
 ```
 
 If you make changes, you'll need to rerun:
@@ -148,10 +151,10 @@ cd libfranka/build  # Get to libfranka/build directory (may need to use differen
 cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=OFF ..
 cmake --build .
 
-# For making changes made to catkin_ws
+# For changes made to catkin_ws
 cd ../../catkin_ws
 catkin_make -DCMAKE_BUILD_TYPE=Release -DFranka_DIR:PATH=../libranka/build  # Make sure you're in catkin_ws directory
-source devel/setup.sh
+
 ```
 
 
@@ -159,3 +162,72 @@ source devel/setup.sh
 Panda limits for motion are located [here](https://frankaemika.github.io/docs/control_parameters.html#limits-for-panda).
 If you go beyond them, you will get the error `libfranka: Move command aborted: motion aborted by reflex! ["cartesian_reflex"]`.
 After that any other command will throw the error `libfranka: Set Joint Impedance command rejected: command not possible in the current mode ("Reflex")!` **UNTIL  the joints are locked and unlocked**.
+
+
+
+## Errors
+communication_test: error while loading shared libraries: libPocoNet.so.50: cannot open shared object file: No such file or directory
+
+$ ldconfig -p | grep libPocoNet
+        libPocoNetSSL.so.62 (libc6,x86-64) => /usr/lib/x86_64-linux-gnu/libPocoNetSSL.so.62
+        libPocoNetSSL.so (libc6,x86-64) => /usr/lib/x86_64-linux-gnu/libPocoNetSSL.so
+        libPocoNet.so.62 (libc6,x86-64) => /usr/lib/x86_64-linux-gnu/libPocoNet.so.62
+        libPocoNet.so (libc6,x86-64) => /usr/lib/x86_64-linux-gnu/libPocoNet.so
+
+sudo ln -s /usr/lib/x86_64-linux-gnu/libPocoNet.so.62 /usr/lib/x86_64-linux-gnu/libPocoNet.so.50
+
+
+sudo ldconfig
+------------------
+
+communication_test: error while loading shared libraries: libPocoFoundation.so.50: cannot open shared object file: No such file or directory
+
+
+ldconfig -p | grep libPocoFoundation
+
+sudo ln -s /usr/lib/x86_64-linux-gnu/libPocoFoundation.so.62 /usr/lib/x86_64-linux-gnu/libPocoFoundation.so.50
+sudo ldconfig
+
+
+ls /usr/local/lib/ | grep libfranka
+
+
+ldd /usr/local/lib/libfranka.so.0.8
+
+
+
+cpack -G DEB
+sudo dpkg -i libfranka*.deb
+
+
+hcilab@hcilab-G7-7590:~/Desktop/github/panda/ros_noetic/libfranka/build$ cpack -G DEB
+CPack: Create package using DEB
+CPack: Install projects
+CPack: - Run preinstall target for: libfranka
+CPack: - Install project: libfranka []
+CPack: Create package
+CPack: - package: /home/hcilab/Desktop/github/panda/ros_noetic/libfranka/build/libfranka-0.9.2-x86_64.deb generated.
+hcilab@hcilab-G7-7590:~/Desktop/github/panda/ros_noetic/libfranka/build$ sudo dpkg -i libfranka*.deb
+Selecting previously unselected package libfranka.
+(Reading database ... 295592 files and directories currently installed.)
+Preparing to unpack libfranka-0.9.2-x86_64.deb ...
+Unpacking libfranka (0.9.2-1) ...
+Setting up libfranka (0.9.2-1) ...
+
+
+
+TODO: Remove poco links?
+
+
+catkin_make clean -DCMAKE_BUILD_TYPE=Release -DFranka_DIR:PATH=../libranka/build
+catkin_make c
+
+
+------------------
+$ sudo communication_test 192.168.1.2
+communication_test: error while loading shared libraries: libfranka.so.0.8: cannot open shared object file: No such file or directory
+
+
+
+sudo ln -s /usr/local/lib/libfranka.so.0.9.2 /usr/local/lib/libfranka.so.0.8
+sudo ldconfig
