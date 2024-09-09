@@ -64,7 +64,6 @@ Before you can run anything with code, make sure joints are unlocked and FCI Con
 
 You should still be in the container's terminal to run the following commands. Make sure to subsitute 192.168.1.2 with your robot's IP.
 ```bash
-rosrun libfranka echo_robot_state 192.168.1.2 # Tests comms (does not require real time kernel) 
 sudo communication_test 192.168.1.2  # Tests realtime kernel and robot by moving bot
 ```
 

@@ -124,7 +124,6 @@ cd libfranka/build/examples
 
 ```bash
 # comms test
-rosrun libfranka echo_robot_state 192.168.1.2 # Tests comms (does not require real time kernel) 
 sudo communication_test 192.168.1.2  # Tests realtime kernel and robot by moving bot
 ```
 
