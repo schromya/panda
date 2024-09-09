@@ -14,48 +14,27 @@ Make sure docker is installed as well.
 # Pull ROS noetic image
 sudo docker pull osrf/ros:noetic-desktop-full
 
-# Allow X11 forwarding
+# Allow Display forwarding
 xhost +local:
 ```
 
 ## Run container
 
+### Run image connected to current directory (which will be in /workspace directory in the container) and allow host to display gui using X11 Display Forwarding
 ```bash
-# Run image connected to current directory (which will be in /workspace directory in the container) and allow host to display gui using X11 Display Forwarding
-sudo docker run -it --env DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v $(pwd):/workspace/ --net host osrf/ros:noetic-desktop-full bash
+cd ros_noetic
+sudo docker build -t panda-container .
+sudo docker run -it --privileged --cap-add=SYS_NICE --env DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v $(pwd):/workspace --net=host panda-container
 
-sudo docker run -it \
-    --env DISPLAY=$DISPLAY \
-    -v /tmp/.X11-unix:/tmp/.X11-unix \
-    -v $(pwd):/workspace/ \
-    --net host \
-    --cap-add SYS_NICE \
-    --ulimit rtprio=99 \
-    --ulimit rttime=-1 \
-    --ulimit memlock=8428281856 \
-    osrf/ros:noetic-desktop-full bash
-
-# Install libfranka
-sudo apt update
-sudo apt install ros-noetic-libfranka ros-noetic-franka-ros
-
-# Set up realtime configs
-sudo addgroup realtime
-sudo usermod -a -G realtime $(whoami)
-
-echo "@realtime soft rtprio 99" | sudo tee -a /etc/security/limits.conf
-echo "@realtime soft priority 99" | sudo tee -a /etc/security/limits.conf
-echo "@realtime soft memlock 102400" | sudo tee -a /etc/security/limits.conf
-echo "@realtime hard rtprio 99" | sudo tee -a /etc/security/limits.conf
-echo "@realtime hard priority 99" | sudo tee -a /etc/security/limits.conf
-echo "@realtime hard memlock 102400" | sudo tee -a /etc/security/limits.conf
+```
 
 
-
-# Set up Workspace
-cd workspace
+### Prep ROS workspace
+```bash
 source /opt/ros/noetic/setup.sh
-
+cd catkin_ws
+catkin_make -DCMAKE_BUILD_TYPE=Release
+source devel/setup.sh
 ```
 
 

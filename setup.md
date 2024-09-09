@@ -58,6 +58,9 @@ mkdir build
 cd build
 cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=OFF ..
 cmake --build .
+cpack -G DEB
+sudo dpkg -i libfranka-0.9.2-x86-64.deb
+
 ```
 
 
@@ -91,7 +94,7 @@ source /opt/ros/noetic/setup.sh
 catkin_init_workspace src
 
 git clone --recursive https://github.com/frankaemika/franka_ros src/franka_ros
-git checkout 0.9.1
+git checkout 0.9.1 # TODO, 0.8.2
 
 sudo apt install python3-rosdep
 sudo rosdep init 
@@ -130,8 +133,11 @@ If you make changes to libfranka, you'll need to rerun:
 
 ``` bash
 cd libfranka/build  # Get to libfranka/build directory (may need to use different command)
-cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=OFF ..
+rm -r * # For cleaning the cache to avoid errors of builds on different machines
+cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=OFF .. 
 cmake --build .
+cpack -G DEB
+sudo dpkg -i libfranka-0.9.2-x86_64.deb
 ```
 
 ### frank_ros
@@ -148,13 +154,17 @@ If you make changes, you'll need to rerun:
 ``` bash
 # For changes made to libfranka
 cd libfranka/build  # Get to libfranka/build directory (may need to use different command)
-cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=OFF ..
+rm -r * # For cleaning the cache to avoid errors of builds on different machines
+cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=OFF .. 
 cmake --build .
+cpack -G DEB
+sudo dpkg -i libfranka-0.9.2-x86-64.deb
 
 # For changes made to catkin_ws
 cd ../../catkin_ws
-catkin_make -DCMAKE_BUILD_TYPE=Release -DFranka_DIR:PATH=../libranka/build  # Make sure you're in catkin_ws directory
-
+catkin_make -DCMAKE_BUILD_TYPE=Release -DFranka_DIR:PATH=../libranka/build/libfranka # Make sure you're in catkin_ws directory
+#/home/hcilab/Desktop/github/panda/ros_noetic/libfranka/build
+source devel/setup.sh
 ```
 
 
@@ -231,3 +241,17 @@ communication_test: error while loading shared libraries: libfranka.so.0.8: cann
 
 sudo ln -s /usr/local/lib/libfranka.so.0.9.2 /usr/local/lib/libfranka.so.0.8
 sudo ldconfig
+
+
+
+CMakeLists.txt 
+find_package(Franka 0.9.1 QUIET) <- Changed from 0.9.0
+if(NOT Franka_FOUND)
+  find_package(Franka 0.8.0 REQUIRED)
+endif()
+
+
+/workspace/libfranka/build/libfranka-0.9.2-x86_64.deb
+
+
+https://github.com/frankaemika/franka_ros/issues/257

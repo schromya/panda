@@ -1,8 +1,8 @@
-prefix=/home/hcilab/Desktop/github/panda/ros_noetic/catkin_ws/devel
+prefix=/workspace/catkin_ws/devel
 
 Name: franka_msgs
 Description: Description of franka_msgs
 Version: 0.9.1
-Cflags: -I/home/hcilab/Desktop/github/panda/ros_noetic/catkin_ws/devel/include
+Cflags: -I/workspace/catkin_ws/devel/include
 Libs: -L${prefix}/lib 
 Requires: message_runtime std_msgs actionlib_msgs

@@ -1,2 +1,2 @@
 - setup-file:
-    local-name: /home/hcilab/Desktop/github/panda/ros_noetic/catkin_ws/devel/setup.sh
+    local-name: /workspace/catkin_ws/devel/setup.sh

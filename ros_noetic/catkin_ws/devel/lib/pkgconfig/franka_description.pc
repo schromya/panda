@@ -1,4 +1,4 @@
-prefix=/home/hcilab/Desktop/github/panda/ros_noetic/catkin_ws/devel
+prefix=/workspace/catkin_ws/devel
 
 Name: franka_description
 Description: Description of franka_description
