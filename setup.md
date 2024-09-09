@@ -59,7 +59,7 @@ cd build
 cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=OFF ..
 cmake --build .
 cpack -G DEB
-sudo dpkg -i libfranka-0.9.2-x86-64.deb
+sudo dpkg -i libfranka-0.9.2-x86_64.deb
 
 ```
 
@@ -102,7 +102,7 @@ sudo rosdep update
 sudo rosdep install --from-paths src --ignore-src --rosdistro noetic -y --skip-keys libfranka
 
 
-catkin_make -DCMAKE_BUILD_TYPE=Release -DFranka_DIR:PATH=../libranka/build  # Make sure you're in catkin_ws directory
+catkin_make -DCMAKE_BUILD_TYPE=Release  # Make sure you're in catkin_ws directory
 source devel/setup.sh
 
 ```
@@ -158,11 +158,10 @@ rm -r * # For cleaning the cache to avoid errors of builds on different machines
 cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=OFF .. 
 cmake --build .
 cpack -G DEB
-sudo dpkg -i libfranka-0.9.2-x86-64.deb
-
+sudo dpkg -i libfranka-0.9.2-x86_64.deb
 # For changes made to catkin_ws
 cd ../../catkin_ws
-catkin_make -DCMAKE_BUILD_TYPE=Release -DFranka_DIR:PATH=../libranka/build/libfranka # Make sure you're in catkin_ws directory
+catkin_make -DCMAKE_BUILD_TYPE=Release # Make sure you're in catkin_ws directory
 #/home/hcilab/Desktop/github/panda/ros_noetic/libfranka/build
 source devel/setup.sh
 ```
