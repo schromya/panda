@@ -94,7 +94,8 @@ source /opt/ros/noetic/setup.sh
 catkin_init_workspace src
 
 git clone --recursive https://github.com/frankaemika/franka_ros src/franka_ros
-git checkout 0.9.1 # TODO, 0.8.2
+cd src/franka_ros
+git checkout 0.9.1
 
 sudo apt install python3-rosdep
 sudo rosdep init 

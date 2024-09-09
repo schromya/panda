@@ -53,6 +53,8 @@ sudo docker run -it --privileged --cap-add=SYS_NICE --env DISPLAY=$DISPLAY -v /t
 # Prepare the ROS workspace
 source /opt/ros/noetic/setup.sh
 cd catkin_ws
+rm -f src/CMakeLists.txt  # Remove if it exists from other machine
+catkin_init_workspace src
 catkin_make -DCMAKE_BUILD_TYPE=Release
 source devel/setup.sh
 ```
