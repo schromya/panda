@@ -72,26 +72,26 @@ Every time you open a new terminal, you'll need to run:
 ```bash
 source /opt/ros/noetic/setup.sh
 
-cd ros_noetic/catkin_ws  # May need to use other command to get to catkin_ws
+cd catkin_ws  # May need to use other command to get to this directory
 source devel/setup.sh
 ```
 
 If you make changes, in catkin_ws, you'll need to run:
 
 ```bash
-cd ../../catkin_ws
+cd catkin_ws # May need to use other command to get to this directory
 catkin_make -DCMAKE_BUILD_TYPE=Release  # Make sure you're in catkin_ws directory
 source devel/setup.sh
 ```
 
 If you make changes to libfranka (which you probably should not be doing), you'll need to run:
 ``` bash
-cd libfranka/build  # Get to libfranka/build directory (may need to use different command)
+cd libfranka/build  # May need to use other command to get to this directory
 rm -r * # For cleaning the cache to avoid errors of builds on different machines
 cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=OFF .. 
 cmake --build .
 cpack -G DEB
-sudo dpkg -i libfranka-0.9.2-x86-64.deb
+sudo dpkg -i libfranka-0.9.2-x86_64.deb
 
 ```
 

@@ -14,20 +14,6 @@ RUN apt-get update && \
     libpoco-dev\ 
     libeigen3-dev\
     python3-rosdep
-    # ros-noetic-actionlib\ 
-    # ros-noetic-rosbash\ 
-    # ros-noetic-combined-robot-hw\ 
-    # ros-noetic-joint-limits-interface\
-    # ros-noetic-controller-manager\ 
-    # ros-noetic-realtime-tools\ 
-    # ros-noetic-tf\
-    # ros-noetic-dynamic-reconfigure\
-    # ros-noetic-tf-conversions\
-    # ros-noetic-gazebo-ros-control\
-    # ros-noetic-kdl-parser\
-    # ros-noetic-eigen-conversions\
-    # ros-noetic-boost-sml\
-    
 
 # Install python packages
 RUN pip install readchar
