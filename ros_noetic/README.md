@@ -51,11 +51,13 @@ sudo docker run -it --privileged --cap-add=SYS_NICE --env DISPLAY=$DISPLAY -v /t
 
 # Now the container should be running and you should be in the container's terminal
 # Prepare the ROS workspace
+cd src/relaxed_ik_ros1/relaxed_ik_core
+cargo build
+cd /workspace
 source /opt/ros/noetic/setup.sh
-cd catkin_ws
-rm -f src/CMakeLists.txt  # Remove if it exists from other machine
+rm -f src/CMakeLists.txt 
 catkin_init_workspace src
-catkin_make -DCMAKE_BUILD_TYPE=Release
+catkin_make
 source devel/setup.sh
 ```
 
@@ -97,4 +99,4 @@ sudo dpkg -i libfranka-0.9.2-x86_64.deb
 ```
 
 ## Troubleshooting + Tips
-Check the "Panda Notes" section at the bottom of [setup.md](setup.md) for tips you should know about Panda.
+Check the "Panda Notes" section at the bottom of [setup.md](/setup.md) for tips you should know about Panda.
