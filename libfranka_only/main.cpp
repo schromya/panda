@@ -13,8 +13,10 @@ int main() {
 
         setDefaultBehavior(robot);
 
-        // Move robot to almost vertical
-        std::array<double, 7> q_goal = {{0, -M_PI_4, 0, -1.3, 0, 3.5, M_PI_4}}; // Rads
+        
+        // Rads
+        std::array<double, 7> q_goal = {{0, -M_PI_4, 0, -3 * M_PI_4, 0, M_PI_2, M_PI_4}}; // Move bot to home
+            // {{0, -M_PI_4, 0, -1.3, 0, 3.5, M_PI_4}}; // Move robot to almost vertical
         MotionGenerator motion_generator(0.1, q_goal);
         robot.control(motion_generator);
 
